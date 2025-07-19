@@ -1,0 +1,393 @@
+DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Classes UML - Sistema de Gestão de Acordos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .diagram-container {
+            width: 100%;
+            height: 810px;
+            border: 2px solid #34495e;
+            border-radius: 10px;
+            background: #f8f9fa;
+            position: relative;
+            overflow: auto;
+        }
+        
+        .class {
+            position: absolute;
+            border: 2px solid #2c3e50;
+            background: white;
+            border-radius: 8px;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .class-header {
+            background: #3498db;
+            color: white;
+            padding: 8px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .attributes, .methods {
+            padding: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .attributes {
+            border-bottom: 1px solid #bdc3c7;
+            background: #ecf0f1;
+        }
+        
+        .methods {
+            background: #f8f9fa;
+        }
+        
+        .primary-key {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        
+        .relationship-line {
+            position: absolute;
+            height: 3px;
+            background: #e74c3c;
+            z-index: 1;
+        }
+        
+        /* Ia usar, mas acabei não usando pois ia dar trabalho fazer as coordenadas */
+        .relationship-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #e74c3c;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            z-index: 2;
+        }
+        
+        .multiplicity {
+            position: absolute;
+            font-size: 13px;
+            color: #e74c3c;
+            font-weight: bold;
+            background: white;
+            padding: 1px 3px;
+            border-radius: 3px;
+            z-index: 3;
+        }
+        
+        /* Posicionamento das classes */
+        .usuario { top: 20px; left: 160px; }
+        .promotor { top: 260px; left: 260px; }
+        .administrador { top: 260px; left: 20px; }
+        .comarca { top: 20px; left: 420px; }
+        .acordo { top: 260px; left: 570px; }
+        .interessado { top: 20px; left: 1180px; }
+        .defensor { top: 20px; left: 935px; }
+        .defensor-representante { top: 20px; left: 690px; }
+        .voluntariado { top: 260px; left: 870px; }
+        .beneficiario { top: 420px; left: 1130px; }
+        .pagamento { top: 485px; left: 870px; } 
+        .parcelas { top: 620px; left: 1130px; }
+        .relatorio-service { top: 485px; left: 260px; }
+        .autenticacao-service { top: 485px; left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagrama de Classes UML - Sistema de Gestão de Acordos de Não Persecução Penal</h1>
+        
+        <div class="diagram-container">
+            <!-- Classe Usuario (Abstrata) -->
+            <div class="class usuario">
+                <div class="class-header"><<abstract>> Usuario</div>
+                <div class="attributes">
+                    <div class="primary-key">- cpf: String</div>
+                    <div>- nome: String</div>
+                    <div>- email: String</div>
+                    <div>- senha: String</div>
+                    <div>- ativo: Boolean</div>
+                </div>
+                <div class="methods">
+                    <div>+ login(String, String): Boolean</div>
+                    <div>+ logout(): void</div>
+                    <div>+ alterarSenha(String): void</div>
+                    <div>+ validarCredenciais(): Boolean</div>
+                </div>
+            </div>
+
+            <!-- Classe Promotor -->
+            <div class="class promotor">
+                <div class="class-header">Promotor</div>
+                <div class="attributes">
+                    <div>- vara: String</div>
+                    <div>- numeroComarca: Integer</div>
+                </div>
+                <div class="methods">
+                    <div>+ cadastrarAcordo(Acordo): void</div>
+                    <div>+ editarAcordo(Integer): void</div>
+                    <div>+ excluirAcordo(Integer): void</div>
+                    <div>+ consultarAcordos(): List&lt;Acordo&gt;</div>
+                    <div>+ gerarPDFAcordo(Integer): byte[]</div>
+                    <div>+ consultarResumo(Filtros): List&lt;Resumo&gt;</div>
+                </div>
+            </div>
+
+            <!-- Classe Administrador -->
+            <div class="class administrador">
+                <div class="class-header">Administrador</div>
+                <div class="attributes">
+                    <div>- nivel: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ cadastrarPromotor(Promotor): void</div>
+                    <div>+ editarPromotor(String): void</div>
+                    <div>+ excluirPromotor(String): void</div>
+                    <div>+ listarPromotores(): List&lt;Promotor&gt;</div>
+                    <div>+ gerarRelatorio(Filtros): byte[]</div>
+                </div>
+            </div>
+
+            <!-- Classe Comarca -->
+            <div class="class comarca">
+                <div class="class-header">Comarca</div>
+                <div class="attributes">
+                    <div class="primary-key">- numero: Integer</div>
+                    <div>- sede: String</div>
+                    <div>- estado: String</div>
+                    <div>- municipios: List&lt;String&gt;</div>
+                </div>
+                <div class="methods">
+                    <div>+ getPromotores(): List&lt;Promotor&gt;</div>
+                    <div>+ validarMunicipio(String): Boolean</div>
+                </div>
+            </div>
+
+            <!-- Classe Acordo -->
+            <div class="class acordo">
+                <div class="class-header">Acordo</div>
+                <div class="attributes">
+                    <div class="primary-key">- idAcordo: Integer</div>
+                    <div>- dataAcordo: Date</div>
+                    <div>- horaAcordo: Time</div>
+                    <div>- descricaoAcordo: String</div>
+                    <div>- localAcordo: String</div>
+                    <div>- assinatura: String</div>
+                    <div>- dano: String</div>
+                    <div>- tipo: String</div>
+                    <div>- impedimento: String</div>
+                    <div>- confissao: Boolean</div>
+                    <div>- penaMinima: Double</div>
+                    <div>- idFato: Integer</div>
+                    <div>- dataFato: Date</div>
+                    <div>- horaFato: Time</div>
+                    <div>- municipioFato: String</div>
+                    <div>- localFato: String</div>
+                    <div>- descricaoFato: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ gerarPDF(): byte[]</div>
+                    <div>+ validarDados(): Boolean</div>
+                    <div>+ calcularValorTotal(): Double</div>
+                    <div>+ adicionarPagamento(Pagamento): void</div>
+                    <div>+ adicionarVoluntariado(Voluntariado): void</div>
+                </div>
+            </div>
+
+            <!-- Classe Interessado -->
+            <div class="class interessado">
+                <div class="class-header">Interessado</div>
+                <div class="attributes">
+                    <div class="primary-key">- cpf: String</div>
+                    <div>- telefone: String</div>
+                    <div>- rg: String</div>
+                    <div>- pai: String</div>
+                    <div>- mae: String</div>
+                    <div>- email: String</div>
+                    <div>- nascimento: Date</div>
+                    <div>- nome: String</div>
+                    <div>- endereco: String</div>
+                    <div>- nacionalidade: String</div>
+                    <div>- saude: String</div>
+                    <div>- escola: String</div>
+                    <div>- renda: Double</div>
+                    <div>- dependencia: String</div>
+                    <div>- profissao: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ validarCPF(): Boolean</div>
+                    <div>+ calcularIdade(): Integer</div>
+                    <div>+ getAcordos(): List&lt;Acordo&gt;</div>
+                </div>
+            </div>
+
+            <!-- Classe Defensor -->
+            <div class="class defensor">
+                <div class="class-header">Defensor</div>
+                <div class="attributes">
+                    <div class="primary-key">- cpf: String</div>
+                    <div>- nome: String</div>
+                    <div>- comparecimento: Boolean</div>
+                    <div>- telefone: String</div>
+                    <div>- entrevista: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ registrarComparecimento(): void</div>
+                    <div>+ adicionarEntrevista(String): void</div>
+                </div>
+            </div>
+
+            <!-- Classe DefensorRepresentante (Associativa) -->
+            <div class="class defensor-representante">
+                <div class="class-header">DefensorRepresentante</div>
+                <div class="attributes">
+                    <div class="primary-key">- cpfDefensor: String</div>
+                    <div class="primary-key">- idAcordo: Integer</div>
+                    <div>- dataRepresentacao: Date</div>
+                </div>
+            </div>
+
+            <!-- Classe Voluntariado -->
+            <div class="class voluntariado">
+                <div class="class-header">Voluntariado</div>
+                <div class="attributes">
+                    <div class="primary-key">- idVoluntariado: Integer</div>
+                    <div>- medida: String</div>
+                    <div>- horas: Integer</div>
+                    <div>- dataInicio: Date</div>
+                    <div>- dataFim: Date</div>
+                </div>
+                <div class="methods">
+                    <div>+ calcularHorasCumpridas(): Integer</div>
+                    <div>+ validarPeriodo(): Boolean</div>
+                </div>
+            </div>
+
+            <!-- Classe Beneficiario -->
+            <div class="class beneficiario">
+                <div class="class-header">Beneficiario</div>
+                <div class="attributes">
+                    <div class="primary-key">- idBeneficiario: Integer</div>
+                    <div>- descricao: String</div>
+                    <div>- nome: String</div>
+                    <div>- categoria: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ getVoluntariados(): List&lt;Voluntariado&gt;</div>
+                    <div>+ getParcelas(): List&lt;Parcelas&gt;</div>
+                </div>
+            </div>
+
+            <!-- Classe Pagamento -->
+            <div class="class pagamento">
+                <div class="class-header">Pagamento</div>
+                <div class="attributes">
+                    <div class="primary-key">- idPagamento: Integer</div>
+                    <div>- valor: Double</div>
+                    <div>- tipo: String</div>
+                    <div>- dataVencimento: Date</div>
+                </div>
+                <div class="methods">
+                    <div>+ calcularValorTotal(): Double</div>
+                    <div>+ verificarVencimento(): Boolean</div>
+                    <div>+ getParcelas(): List&lt;Parcelas&gt;</div>
+                </div>
+            </div>
+
+            <!-- Classe Parcelas -->
+            <div class="class parcelas">
+                <div class="class-header">Parcelas</div>
+                <div class="attributes">
+                    <div class="primary-key">- idParcelas: Integer</div>
+                    <div>- vencimento: Date</div>
+                    <div>- valor: Double</div>
+                    <div>- paga: Boolean</div>
+                </div>
+                <div class="methods">
+                    <div>+ marcarComoPaga(): void</div>
+                    <div>+ calcularJuros(): Double</div>
+                </div>
+            </div>
+
+            <!-- Classe RelatorioService -->
+            <div class="class relatorio-service">
+                <div class="class-header">RelatorioService</div>
+                <div class="attributes">
+                    <div>- formatoPadrao: String</div>
+                </div>
+                <div class="methods">
+                    <div>+ gerarRelatorioArrecadacao(Filtros): byte[]</div>
+                    <div>+ gerarResumoAcordos(Filtros): byte[]</div>
+                    <div>+ compilarDadosFinanceiros(): Map</div>
+                    <div>+ aplicarFiltros(Filtros): List</div>
+                </div>
+            </div>
+
+            <!-- Classe AutenticacaoService -->
+            <div class="class autenticacao-service">
+                <div class="class-header">AutenticacaoService</div>
+                <div class="attributes">
+                    <div>- tentativasMaximas: Integer</div>
+                    <div>- tempoSessao: Integer</div>
+                </div>
+                <div class="methods">
+                    <div>+ autenticar(String, String): Usuario</div>
+                    <div>+ validarSessao(String): Boolean</div>
+                    <div>+ encriptarSenha(String): String</div>
+                    <div>+ gerarToken(): String</div>
+                    <div>+ bloquearUsuario(String): void</div>
+                </div>
+            </div>
+
+            <!-- Linhas de relacionamento -->
+            <!-- Herança: Usuario -> Promotor -->
+                <div class="relationship-line" style="width: 100px; top: 220px; left: 320px; transform: rotate(60deg);"></div>
+                <div class="multiplicity" style="top: 220px; left: 355px;">extends</div>
+
+                <!-- Herança: Usuario -> Administrador -->
+                <div class="relationship-line" style="width: 100px; top: 220px; left: 86px; transform: rotate(120deg);"></div>
+                <div class="multiplicity" style="top: 220px; left: 100px;">extends</div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3498db;">
+            <h3 style="color: #2c3e50; margin-top: 0;">Observações sobre o Diagrama:</h3>
+            <ul style="color: #34495e;">
+                <li><strong>Usuario</strong> é uma classe abstrata que serve como superclasse para Promotor e Administrador</li>
+                <li><strong>Relacionamentos e Multiplicidades:</strong> Não temos as linhas e setas que representam as associações entre as classes conforme espera-se de um diagrama UML, pois tivemos dificuldades em fazer as coordenadas exatas delas do html. Porém, as relações entre as classes são as mesmas apresentadas no DER inserido no trabalho e basicamente mostram o que precisa ser consultado/acessado pelos métodos.</li>
+                <li><strong>Classes de Serviço:</strong> RelatorioService e AutenticacaoService representam a lógica de negócio</li>
+                <li><strong>Chaves Primárias:</strong> Destacadas com sublinhado nos atributos</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
